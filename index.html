@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <form id="calculator">
+        <label class="label" for="initialAmount">Начальная сумма:</label>
+        <input
+          class="input-field"
+          type="number"
+          id="initialAmount"
+          name="initialAmount"
+          required
+        /><br />
+        <label class="label" for="interestRate">Процентная ставка (%):</label>
+        <input
+          class="input-field"
+          type="number"
+          id="interestRate"
+          name="interestRate"
+          min="0"
+          required
+        /><br />
+        <label class="label" for="numberOfDays">Количество дней:</label>
+        <input
+          class="input-field"
+          type="number"
+          id="numberOfDays"
+          name="numberOfDays"
+          min="1"
+          required
+        /><br />
+        <button class="button" type="submit">Посчитать</button>
+      </form>
+    </div>
+    <div class="results-container">
+      <table id="resultsTable">
+        <thead>
+          <tr>
+            <th>День</th>
+            <th>Сумма</th>
+          </tr>
+        </thead>
+        <tbody id="resultsBody"></tbody>
+      </table>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
