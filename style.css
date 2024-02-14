@@ -1,4 +1,4 @@
-/* Стили для контейнера формы */
+/* Styles for form container */
 .container {
   background-color: #fff;
   padding: 20px;
@@ -9,13 +9,13 @@
   margin: 50px auto;
 }
 
-/* Стили для меток */
+/* Styles for labels */
 .label {
   display: block;
   margin-bottom: 10px;
 }
 
-/* Стили для полей ввода */
+/* Styles for input fields */
 .input-field {
   width: 100%;
   padding: 10px;
@@ -24,8 +24,10 @@
   box-sizing: border-box;
   margin-bottom: 15px;
 }
-
-/* Стили для кнопки */
+.buttons-container {
+  display: flex;
+}
+/* Styles for button */
 .button {
   background-image: linear-gradient(to bottom, #4caf50, #45a049);
   color: #fff;
@@ -34,29 +36,60 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
 
-/* При наведении на кнопку */
+/* Hover effect for button */
 .button:hover {
   background-color: #45a049;
 }
 
-/* Стили для таблицы результатов */
+/* Styles for results table container */
 .results-container {
-  margin-top: 20px; /* добавляем отступ сверху */
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 300px;
+  margin: 50px auto;
 }
 
 .results-container table {
-  width: 100%; /* занимаем всю доступную ширину */
-  border-collapse: collapse; /* объединяем границы ячеек */
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .results-container th,
 .results-container td {
   padding: 8px;
-  border: 1px solid #ddd; /* задаем границу для ячеек */
+  border: 1px solid #ddd;
 }
 
 .results-container th {
-  background-color: #f2f2f2; /* цвет фона для заголовков */
+  background-color: #f2f2f2;
+}
+
+/* Media Queries */
+
+/* For small mobile devices (width less than 600px) */
+@media only screen and (max-width: 600px) {
+  .container {
+    width: 90%;
+    margin: 20px auto;
+    padding: 10px;
+  }
+
+  .input-field,
+  .button {
+    padding: 8px;
+    font-size: 14px;
+  }
+}
+
+/* For large mobile devices (width less than 900px) */
+@media only screen and (max-width: 900px) {
+  .container {
+    width: 80%;
+  }
 }
