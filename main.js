@@ -1,6 +1,6 @@
-import { calculatePersent } from "./functions.js";
-import { copyTables } from "./functions.js";
-import { downloadFormAndTable } from "./functions.js";
+import { calculatePersent } from "./src/scripts/functions.js";
+import { copyTables } from "./src/scripts/functions.js";
+import { downloadFormAndTable } from "./src/scripts/functions.js";
 document.getElementById("calculator").addEventListener("submit", (event) => {
   event.preventDefault();
   calculatePersent();

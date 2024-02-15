@@ -32,6 +32,9 @@ export const calculatePersent = () => {
     handleActualAmountInput(newRow.querySelector(".realAmountInput"), newRow);
   }
 };
+const arrowUpImageUrl = "src/icons/arrowUpImageUrl.png";
+const arrowDownImageUrl = "src/icons/arrowDownImageUrl.png";
+
 const handleActualAmountInput = (input, row) => {
   input.addEventListener("input", function () {
     const realAmount = parseFloat(this.value);
@@ -42,10 +45,28 @@ const handleActualAmountInput = (input, row) => {
       );
       const difference = ((realAmount - expectedAmount) / expectedAmount) * 100;
       differenceCell.textContent = difference.toFixed(2) + "%";
+      if (difference > 0) {
+        setCellStyles(differenceCell, "green", `url(${arrowUpImageUrl})`);
+      } else if (difference < 0) {
+        setCellStyles(differenceCell, "red", `url(${arrowDownImageUrl})`);
+      } else {
+        setCellStyles(differenceCell, "black", "");
+      }
     } else {
       differenceCell.textContent = "";
     }
   });
+};
+
+const setCellStyles = (cell, color, backgroundImage) => {
+  cell.style.color = color;
+  cell.style.paddingRight = "21px";
+
+  cell.style.backgroundImage = backgroundImage;
+  cell.style.backgroundRepeat = "no-repeat";
+  cell.style.backgroundSize = "25px 25px";
+  cell.style.backgroundPositionX = "right";
+  cell.style.backgroundPositionY = "11px";
 };
 
 export const copyTables = () => {
