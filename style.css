@@ -5,7 +5,7 @@
   border-radius: 8px;
   box-shadow: 2px 2px 5px 3px rgba(0, 0, 0, 0.5);
   text-align: center;
-  width: 300px;
+  width: 400px;
   margin: 50px auto;
 }
 
@@ -26,32 +26,40 @@
 }
 .buttons-container {
   display: flex;
+  justify-content: space-between;
 }
 /* Styles for button */
 .button {
-  background-image: linear-gradient(to bottom, #4caf50, #45a049);
+  background-image: linear-gradient(to bottom, #4caf50, #2e8b57);
   color: #fff;
-  padding: 10px 20px;
+  padding: 12px 24px;
+  font-size: 18px;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 10px;
-  margin-bottom: 30px;
+  border-radius: 8px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  margin: 10px 5px 30px 5px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Hover effect for button */
+.button:focus {
+  outline: none;
+}
+
 .button:hover {
-  background-color: #45a049;
+  box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.4);
+  background-image: linear-gradient(to bottom, #5cb85c, #3d8b3d);
 }
 
+.button:active {
+  box-shadow: none;
+  outline: none;
+  background-image: linear-gradient(to bottom, #5cb85c, #3d8b3d);
+}
 /* Styles for results table container */
 .results-container {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
   text-align: center;
-  width: 300px;
+  min-width: 320px;
+  max-width: 400px;
   margin: 50px auto;
 }
 
@@ -67,29 +75,51 @@
 }
 
 .results-container th {
-  background-color: #f2f2f2;
+  background-color: #5a5a5a;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-weight: lighter;
 }
 
+.realAmountInput {
+  width: 100px;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 16px;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
+  outline: none;
+}
 /* Media Queries */
 
-/* For small mobile devices (width less than 600px) */
 @media only screen and (max-width: 600px) {
   .container {
-    width: 90%;
-    margin: 20px auto;
+    width: 280px;
     padding: 10px;
   }
-
-  .input-field,
-  .button {
-    padding: 8px;
-    font-size: 14px;
+  .results-container {
+    width: 280px;
+    padding: 10px;
   }
-}
+  .input-field {
+    padding: 6px;
+    font-size: 12px;
+  }
+  .button {
+    padding: 10px 17px;
+    font-size: 12px;
+  }
 
-/* For large mobile devices (width less than 900px) */
-@media only screen and (max-width: 900px) {
-  .container {
-    width: 80%;
+  .results-container th,
+  .results-container td {
+    padding: 3px;
+  }
+
+  .results-container th {
+    font-size: 12px;
+    padding: 6px;
   }
 }

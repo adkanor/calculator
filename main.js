@@ -15,3 +15,12 @@ document
   .addEventListener("click", function () {
     downloadFormAndTable();
   });
+
+// Forbidden negative numbers
+// document.querySelectorAll(`input[type="number"]`).forEach((input) => {
+//   input.addEventListener("input", function () {
+//     if (parseFloat(this.value) < 0) {
+//       this.value = "";
+//     }
+//   });
+// });

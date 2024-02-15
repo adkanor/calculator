@@ -23,9 +23,29 @@ export const calculatePersent = () => {
     newRow.innerHTML = `
                     <td>${i}</td>
                     <td>${result.toFixed(2)}</td>
+                    <td><input value=${result.toFixed(
+                      2
+                    )} type="number" class="realAmountInput" placeholder="Введите сумму" /></td>
+                    <td class="differenceCell"></td>
                 `;
     resultsBody.appendChild(newRow);
+    handleActualAmountInput(newRow.querySelector(".realAmountInput"), newRow);
   }
+};
+const handleActualAmountInput = (input, row) => {
+  input.addEventListener("input", function () {
+    const realAmount = parseFloat(this.value);
+    const differenceCell = row.querySelector(".differenceCell");
+    if (!isNaN(realAmount)) {
+      const expectedAmount = parseFloat(
+        row.querySelector("td:nth-child(2)").textContent
+      );
+      const difference = ((realAmount - expectedAmount) / expectedAmount) * 100;
+      differenceCell.textContent = difference.toFixed(2) + "%";
+    } else {
+      differenceCell.textContent = "";
+    }
+  });
 };
 
 export const copyTables = () => {
@@ -94,6 +114,7 @@ function createCSVContent(table) {
 
   return csvContent;
 }
+
 export const showNegativeToast = (
   message,
   duration = 3000,
@@ -112,6 +133,7 @@ export const showNegativeToast = (
     },
   }).showToast();
 };
+
 export const showPositiveToast = (
   message,
   duration = 3000,
