@@ -130,12 +130,36 @@ function createCSVContent(table) {
     row.querySelectorAll("th, td").forEach((cell) => {
       rowData.push(cell.innerText);
     });
-    csvContent += rowData.join(",") + "\n";
+    csvContent += rowData.join(" ") + "\n";
   });
 
   return csvContent;
 }
+export const saveDataToLocalStorage = () => {
+  // const resultsTable = document.getElementById("resultsTable");
+  // const data = createCSVContent(resultsTable);
+  // localStorage.setItem("calculatorData", data);
+  // console.log(data);
+  const { initialAmount, interestRate, numberOfDays } = getDataFromTables();
+  const data = {
+    initialAmount,
+    interestRate,
+    numberOfDays,
+  };
+  console.log(data);
+  localStorage.setItem("calculatorData", JSON.stringify(data));
+};
 
+export const loadAndCalculateFromLocalStorage = () => {
+  const dataString = localStorage.getItem("calculatorData");
+
+  if (dataString) {
+    const data = JSON.parse(dataString);
+    const { initialAmount, interestRate, numberOfDays } = data;
+
+    calculatePersent(initialAmount, interestRate, numberOfDays);
+  }
+};
 export const showNegativeToast = (
   message,
   duration = 3000,
