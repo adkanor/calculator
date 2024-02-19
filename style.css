@@ -70,7 +70,7 @@
 
 .results-container th,
 .results-container td {
-  padding: 8px;
+  padding: 2px;
   border: 1px solid #ddd;
 }
 
@@ -83,8 +83,8 @@
 }
 
 .realAmountInput {
-  width: 100px;
-  border: 1px solid #ccc;
+  width: 60px;
+  border: none;
   padding: 8px;
   border-radius: 5px;
   font-size: 16px;

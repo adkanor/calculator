@@ -66,7 +66,7 @@ const setCellStyles = (cell, color, backgroundImage) => {
   cell.style.backgroundRepeat = "no-repeat";
   cell.style.backgroundSize = "25px 25px";
   cell.style.backgroundPositionX = "right";
-  cell.style.backgroundPositionY = "11px";
+  cell.style.backgroundPositionY = "6px";
 };
 
 export const copyTables = () => {
