@@ -14,24 +14,35 @@ export const getDataFromTables = () => {
 export const calculatePersent = () => {
   const { initialAmount, interestRate, numberOfDays } = getDataFromTables();
   let result = initialAmount;
-  const resultsBody = document.getElementById("resultsBody");
-  resultsBody.innerHTML = "";
-
+  const tableData = [];
   for (let i = 1; i <= numberOfDays; i++) {
     result += result * (interestRate / 100);
+    tableData.push({
+      day: i,
+      expectedAmount: result.toFixed(2),
+      actualAmount: result.toFixed(2),
+      difference: "",
+    });
+  }
+  renderTable(tableData);
+};
+
+export const renderTable = (tableData) => {
+  const resultsBody = document.getElementById("resultsBody");
+  resultsBody.innerHTML = "";
+  tableData.forEach((rowData) => {
     const newRow = document.createElement("tr");
     newRow.innerHTML = `
-                    <td>${i}</td>
-                    <td>${result.toFixed(2)}</td>
-                    <td><input value=${result.toFixed(
-                      2
-                    )} type="number" class="realAmountInput" placeholder="Введите сумму" /></td>
-                    <td class="differenceCell"></td>
-                `;
+      <td>${rowData.day}</td>
+      <td>${rowData.expectedAmount}</td>
+      <td><input value=${rowData.actualAmount} type="number" class="realAmountInput" placeholder="Введите сумму" /></td>
+      <td class="differenceCell">${rowData.difference}</td>
+    `;
     resultsBody.appendChild(newRow);
     handleActualAmountInput(newRow.querySelector(".realAmountInput"), newRow);
-  }
+  });
 };
+
 const arrowUpImageUrl = "src/icons/arrowUpImageUrl.png";
 const arrowDownImageUrl = "src/icons/arrowDownImageUrl.png";
 
@@ -57,22 +68,25 @@ const handleActualAmountInput = (input, row) => {
     }
   });
 };
-
-const setCellStyles = (cell, color, backgroundImage) => {
-  cell.style.color = color;
-  cell.style.paddingRight = "21px";
-
-  cell.style.backgroundImage = backgroundImage;
-  cell.style.backgroundRepeat = "no-repeat";
-  cell.style.backgroundSize = "25px 25px";
-  cell.style.backgroundPositionX = "right";
-  cell.style.backgroundPositionY = "6px";
+export const updateArrows = (tableData) => {
+  const differenceCells = document.querySelectorAll(".differenceCell");
+  differenceCells.forEach((cell, index) => {
+    const difference = parseFloat(tableData[index].difference);
+    if (!isNaN(difference)) {
+      if (difference > 0) {
+        setCellStyles(cell, "green", `url(${arrowUpImageUrl})`);
+      } else if (difference < 0) {
+        setCellStyles(cell, "red", `url(${arrowDownImageUrl})`);
+      } else {
+        setCellStyles(cell, "black", "");
+      }
+    }
+  });
 };
-
 export const copyTables = () => {
   const { initialAmount, interestRate, numberOfDays } = getDataFromTables();
   if (isNaN(initialAmount) || isNaN(interestRate) || isNaN(numberOfDays)) {
-    showNegativeToast("Нету данных");
+    renderToast("Нету данных", "negative");
     return;
   }
   const container = document.createElement("div");
@@ -94,7 +108,7 @@ export const copyTables = () => {
   window.getSelection().removeAllRanges();
 
   container.remove();
-  showPositiveToast("Успешно скопировано");
+  renderToast("Успешно скопировано", "positive");
 };
 
 export const downloadFormAndTable = () => {
@@ -102,7 +116,7 @@ export const downloadFormAndTable = () => {
   const formData = `Начальная сумма: ${initialAmount}, Процентная ставка (%): ${interestRate}, Количество дней: ${numberOfDays}`;
 
   if (isNaN(initialAmount) || isNaN(interestRate) || isNaN(numberOfDays)) {
-    showNegativeToast("Пустая таблица.");
+    renderToast("Пустая таблица.", "negative");
     return;
   }
 
@@ -118,7 +132,7 @@ export const downloadFormAndTable = () => {
   downloadLink.download = "form_and_table.csv";
 
   downloadLink.click();
-  showPositiveToast("Успешно скачано");
+  renderToast("Успешно скачано", "positive");
 };
 
 function createCSVContent(table) {
@@ -135,37 +149,46 @@ function createCSVContent(table) {
 
   return csvContent;
 }
+
 export const saveDataToLocalStorage = () => {
-  // const resultsTable = document.getElementById("resultsTable");
-  // const data = createCSVContent(resultsTable);
-  // localStorage.setItem("calculatorData", data);
-  // console.log(data);
-  const { initialAmount, interestRate, numberOfDays } = getDataFromTables();
-  const data = {
-    initialAmount,
-    interestRate,
-    numberOfDays,
-  };
-  console.log(data);
-  localStorage.setItem("calculatorData", JSON.stringify(data));
+  const resultsBody = document.getElementById("resultsBody");
+  const data = [];
+
+  resultsBody.querySelectorAll("tr").forEach((row) => {
+    const rowData = {};
+    const cells = row.querySelectorAll("td");
+    rowData.day = cells[0].textContent;
+    rowData.expectedAmount = cells[1].textContent;
+    rowData.actualAmount = cells[2].querySelector("input").value; // Значение из инпута
+    rowData.difference = cells[3].textContent;
+    data.push(rowData);
+  });
+  localStorage.setItem("tableData", JSON.stringify(data));
 };
 
-export const loadAndCalculateFromLocalStorage = () => {
-  const dataString = localStorage.getItem("calculatorData");
+const setCellStyles = (cell, color, backgroundImage) => {
+  cell.style.color = color;
+  cell.style.paddingRight = "21px";
+  cell.style.backgroundImage = backgroundImage;
+  cell.style.backgroundRepeat = "no-repeat";
+  cell.style.backgroundSize = "25px 25px";
+  cell.style.backgroundPositionX = "right";
+  cell.style.backgroundPositionY = "6px";
+};
 
-  if (dataString) {
-    const data = JSON.parse(dataString);
-    const { initialAmount, interestRate, numberOfDays } = data;
-
-    calculatePersent(initialAmount, interestRate, numberOfDays);
+const renderToast = (
+  message,
+  type,
+  duration = 3000,
+  gravity = "top",
+  position = "left"
+) => {
+  let backgroundGradient;
+  if (type === "positive") {
+    backgroundGradient = "linear-gradient(to right, #00b09b, #96c93d)";
+  } else if (type === "negative") {
+    backgroundGradient = "linear-gradient(to right, #ff0040, #803470)";
   }
-};
-export const showNegativeToast = (
-  message,
-  duration = 3000,
-  gravity = "top",
-  position = "left"
-) => {
   Toastify({
     text: message,
     duration: duration,
@@ -174,26 +197,7 @@ export const showNegativeToast = (
     position: position,
     stopOnFocus: true,
     style: {
-      background: "linear-gradient(to right, #ff0040, #803470)", // Красный до бордового фиолетового
-    },
-  }).showToast();
-};
-
-export const showPositiveToast = (
-  message,
-  duration = 3000,
-  gravity = "top",
-  position = "left"
-) => {
-  Toastify({
-    text: message,
-    duration: duration,
-    close: true,
-    gravity: gravity,
-    position: position,
-    stopOnFocus: true,
-    style: {
-      background: "linear-gradient(to right, #00b09b, #96c93d)",
+      background: backgroundGradient,
     },
   }).showToast();
 };

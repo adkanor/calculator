@@ -1,7 +1,12 @@
-import { calculatePersent } from "./src/scripts/functions.js";
-import { copyTables } from "./src/scripts/functions.js";
-import { downloadFormAndTable } from "./src/scripts/functions.js";
-import { saveDataToLocalStorage } from "./src/scripts/functions.js";
+import {
+  calculatePersent,
+  copyTables,
+  downloadFormAndTable,
+  saveDataToLocalStorage,
+  renderTable,
+  updateArrows,
+} from "./src/scripts/functions.js";
+
 document.getElementById("calculator").addEventListener("submit", (event) => {
   event.preventDefault();
   calculatePersent();
@@ -17,22 +22,19 @@ document
   .addEventListener("click", function () {
     downloadFormAndTable();
   });
-document.addEventListener("DOMContentLoaded", () => {
-  const savedData = localStorage.getItem("calculatorData");
+document.addEventListener("DOMContentLoaded", function () {
+  const resultsBody = document.getElementById("resultsBody");
 
-  if (savedData) {
-    const { initialAmount, interestRate, numberOfDays } = JSON.parse(savedData);
-    document.getElementById("initialAmount").value = initialAmount;
-    document.getElementById("interestRate").value = interestRate;
-    document.getElementById("numberOfDays").value = numberOfDays;
-    calculatePersent();
+  resultsBody.addEventListener("input", function (event) {
+    if (event.target.classList.contains("realAmountInput")) {
+      saveDataToLocalStorage();
+    }
+  });
+});
+document.addEventListener("DOMContentLoaded", function () {
+  const tableData = JSON.parse(localStorage.getItem("tableData"));
+  if (tableData) {
+    renderTable(tableData);
+    updateArrows(tableData);
   }
 });
-// Forbidden negative numbers
-// document.querySelectorAll(`input[type="number"]`).forEach((input) => {
-//   input.addEventListener("input", function () {
-//     if (parseFloat(this.value) < 0) {
-//       this.value = "";
-//     }
-//   });
-// });
