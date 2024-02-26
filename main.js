@@ -37,4 +37,10 @@ document.addEventListener("DOMContentLoaded", function () {
     renderTable(tableData);
     updateArrows(tableData);
   }
+  const initialData = JSON.parse(localStorage.getItem("initialData"));
+  if (initialData) {
+    document.getElementById("initialAmount").value = initialData.initialAmount;
+    document.getElementById("interestRate").value = initialData.interestRate;
+    document.getElementById("numberOfDays").value = initialData.numberOfDays;
+  }
 });

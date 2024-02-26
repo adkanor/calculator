@@ -151,6 +151,12 @@ function createCSVContent(table) {
 }
 
 export const saveDataToLocalStorage = () => {
+  const { initialAmount, interestRate, numberOfDays } = getDataFromTables();
+  const initialData = {
+    initialAmount,
+    interestRate,
+    numberOfDays,
+  };
   const resultsBody = document.getElementById("resultsBody");
   const data = [];
 
@@ -163,6 +169,7 @@ export const saveDataToLocalStorage = () => {
     rowData.difference = cells[3].textContent;
     data.push(rowData);
   });
+  localStorage.setItem("initialData", JSON.stringify(initialData));
   localStorage.setItem("tableData", JSON.stringify(data));
 };
 
